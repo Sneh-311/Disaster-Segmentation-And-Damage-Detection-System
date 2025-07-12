@@ -26,43 +26,36 @@ This system helps in:
 
 ## 🧠 Model Architecture
 
-The backbone of this project is a **UNet** architecture defined in `unet.py`. It has been trained on annotated satellite data to segment flooded areas. The trained weights are stored in `segmentation_model.pth`.
+The core of this project is a **UNet** model defined in `unet.py`, trained on labeled satellite imagery to identify flood zones. The trained weights are stored in `segmentation_model.pth`.
 
 ---
 
-##📊 Dataset Details
+## 📊 Dataset Details
 
-The dataset resides in the dataset/ folder and includes:
-
-Image/ — Satellite images (pre- and post-disaster)
-
-Mask/ — Annotated flood regions in binary/multiclass format
-
-metadata.csv — Additional information to support analysis
+The dataset is stored in the `dataset/` directory and includes:
+- `Image/` — Satellite images (pre- and post-disaster)
+- `Mask/` — Corresponding segmentation masks (binary or multiclass)
+- `metadata.csv` — Supplementary metadata for analysis
 
 ---
 
-##🔧 Scripts Breakdown
+## 🔧 Scripts Breakdown
 
-utils.py: Contains preprocessing, overlay, and visualization helpers
-
-detect_chages.py: Implements comparison of before/after images for damage assessment
-
-instace_segmentation.py: Runs instance-level segmentation on affected areas
+- `utils.py` — Preprocessing utilities, visualization, and mask/image handling
+- `detect_chages.py` — Compares pre- and post-event images to analyze damage
+- `instace_segmentation.py` — Performs instance-level segmentation of flooded regions
 
 ---
 
 ## 🛠️ Setup Instructions
 
-Ensure you have **Python 3.10+** installed. 
+Make sure you have **Python 3.10+** installed.
 
 ### 1️⃣ Install Dependencies
 
-Make sure all required libraries are installed:
+Install all required libraries using:
 
 ```bash
 pip install -r requirements.txt
 
-
-
-
+python app.py
