@@ -30,7 +30,7 @@ The backbone of this project is a **UNet** architecture defined in `unet.py`. It
 
 ---
 
-📊 Dataset Details
+##📊 Dataset Details
 
 The dataset resides in the dataset/ folder and includes:
 
@@ -42,7 +42,8 @@ metadata.csv — Additional information to support analysis
 
 ---
 
-🔧 Scripts Breakdown
+##🔧 Scripts Breakdown
+
 utils.py: Contains preprocessing, overlay, and visualization helpers
 
 detect_chages.py: Implements comparison of before/after images for damage assessment
