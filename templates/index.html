@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Flood Segmentation</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white min-h-screen flex flex-col items-center p-6">
+
+  <div class="bg-neutral-900 rounded-2xl shadow-lg p-8 max-w-xl w-full transition hover:shadow-pink-400">
+    <h2 class="text-3xl font-bold text-pink-400 mb-6 text-center">☠️Disaster Segmentation Model</h2>
+
+    <!-- Toast notification -->
+    <div id="toast" class="hidden fixed top-4 right-4 bg-peach-500 text-black font-medium py-2 px-4 rounded shadow-lg transition duration-300 z-50"></div>
+
+    <!-- Upload Form -->
+    <form method="POST" action="/predict" enctype="multipart/form-data" class="space-y-5">
+      <label class="block text-sm font-medium text-peach-200">Upload Image:</label>
+      <input type="file" name="image" required
+             class="block w-full text-sm text-black border border-pink-300 rounded-lg cursor-pointer bg-white focus:ring-2 focus:ring-fuchsia-400 focus:outline-none" />
+
+      <!-- Image preview -->
+      <div id="preview-container" class="hidden mt-4">
+        <p class="text-sm text-peach-100 mb-2">Preview:</p>
+        <img id="preview-image" class="rounded-lg shadow w-full" alt="Preview">
+      </div>
+
+      <button type="submit"
+              class="w-full bg-pink-500 hover:bg-fuchsia-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+        Predict
+      </button>
+    </form>
+
+    <div id="loading" class="hidden text-center text-pink-300 mt-4">
+      ⏳ Predicting... Please wait.
+    </div>
+
+    <!-- Results -->
+    {% if uploaded %}
+    <div class="mt-10 space-y-6">
+      <div>
+        <h3 class="text-lg font-semibold text-lavender-300 mb-2">Original Image:</h3>
+        <img src="{{ url_for('static', filename='uploads/' + original) }}" class="rounded-lg shadow w-full" alt="Original">
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-lavender-300 mb-2">Semantic Segmentation Result:</h3>
+        <img src="{{ url_for('static', filename='uploads/' + semantic_result) }}" class="rounded-lg shadow w-full" alt="Semantic Segmentation">
+      </div>
+
+      <div>
+        <h3 class="text-lg font-semibold text-lavender-300 mb-2">Instance Segmentation Result:</h3>
+        <img src="{{ url_for('static', filename='uploads/' + instance_result) }}" class="rounded-lg shadow w-full" alt="Instance Segmentation">
+      </div>
+    </div>
+    {% endif %}
+
+    <!-- Change Detection -->
+    <div class="mt-12 border-t border-pink-400 pt-8">
+      <h2 class="text-2xl font-bold text-pink-400 mb-6 text-center">🔍 Change Detection</h2>
+
+      <form method="POST" action="/change_detection" enctype="multipart/form-data" class="space-y-5">
+        <div>
+          <label class="block text-sm font-medium text-peach-200">Before Image</label>
+          <input type="file" name="before_image" required
+                 class="block w-full text-sm text-black border border-fuchsia-300 rounded-lg bg-white cursor-pointer focus:ring-2 focus:ring-pink-400 focus:outline-none" />
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium text-peach-200">After Image</label>
+          <input type="file" name="after_image" required
+                 class="block w-full text-sm text-black border border-fuchsia-300 rounded-lg bg-white cursor-pointer focus:ring-2 focus:ring-pink-400 focus:outline-none" />
+        </div>
+
+        <button type="submit"
+                class="w-full bg-fuchsia-500 hover:bg-fuchsia-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-200">
+          Detect Changes
+        </button>
+      </form>
+
+      {% if change_uploaded %}
+      <div class="mt-10 space-y-6">
+        <div>
+          <h3 class="text-lg font-semibold text-lavender-300">Before Disaster:</h3>
+          <img src="{{ url_for('static', filename='uploads/' + before_img) }}" class="rounded-lg shadow w-full" alt="Before Image">
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-lavender-300">After Disaster:</h3>
+          <img src="{{ url_for('static', filename='uploads/' + after_img) }}" class="rounded-lg shadow w-full" alt="After Image">
+        </div>
+
+        <div>
+          <h3 class="text-lg font-semibold text-lavender-300">Detected Changes:</h3>
+          <img src="{{ url_for('static', filename='uploads/' + change_result) }}" class="rounded-lg shadow w-full" alt="Change Detection Result">
+        </div>
+      </div>
+      {% endif %}
+    </div>
+
+  </div>
+
+</body>
+</html>
+

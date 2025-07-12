@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flood Disaster Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+  </style>
+</head>
+
+<body class="bg-black text-white min-h-screen p-6">
+
+  <!-- Header -->
+  <header class="text-center mb-10">
+    <h1 class="text-4xl md:text-5xl font-bold text-pink-400 drop-shadow-lg">🌪️ Flood Disaster Assessment</h1>
+    <p class="text-peach-300 text-lg mt-3 italic">Segmentation • Detection • Impact Visualization</p>
+  </header>
+
+  <!-- Stats Grid -->
+  <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
+    <div class="bg-gradient-to-br from-pink-500 to-pink-300 p-6 rounded-xl shadow-xl text-center">
+      <h2 class="text-md font-semibold text-black/80">Flooded Area</h2>
+      <p class="text-3xl font-bold text-black">{{ flooded_area }}</p>
+    </div>
+    <div class="bg-gradient-to-br from-peach-400 to-peach-200 p-6 rounded-xl shadow-xl text-center">
+      <h2 class="text-md font-semibold text-black/80">Change Severity</h2>
+      <p class="text-3xl font-bold text-black">{{ change_severity }}</p>
+    </div>
+    <div class="bg-gradient-to-br from-lavender-400 to-lavender-200 p-6 rounded-xl shadow-xl text-center">
+      <h2 class="text-md font-semibold text-black/80">Structures Affected</h2>
+      <p class="text-3xl font-bold text-black">{{ structure_affected }}</p>
+    </div>
+    <div class="bg-gradient-to-br from-fuchsia-500 to-pink-300 p-6 rounded-xl shadow-xl text-center">
+      <h2 class="text-md font-semibold text-black/80">PDF Report</h2>
+      <a href="{{ url_for('static', filename='uploads/report.pdf') }}" download class="text-black font-bold underline hover:text-white transition">
+        Download
+      </a>
+    </div>
+  </section>
+
+  <!-- Images & Results -->
+  <section class="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+    {% for title, path in [
+      ('Original Image', original),
+      ('Semantic Segmentation', semantic_result),
+      ('Instance Segmentation', instance_result),
+      ('Change Detection', change_result),
+      ('Flood Intensity Heatmap', heatmap)
+    ] %}
+    <div class="bg-neutral-900 rounded-xl p-4 shadow-lg hover:shadow-pink-500 transition duration-300">
+      <h3 class="text-lg font-semibold text-peach-300 mb-3">{{ title }}</h3>
+      <img src="{{ url_for('static', filename='uploads/' + path) }}" alt="{{ title }}" class="rounded-lg w-full border border-pink-300">
+    </div>
+    {% endfor %}
+  </section>  
+
+  <!-- Footer -->
+  <footer class="text-center text-sm text-gray-400 mt-12">
+    &copy; 2025 <span class="text-pink-400 font-semibold">FloodAI</span> – Disaster Response Dashboard
+  </footer>
+
+</body>
+</html>
